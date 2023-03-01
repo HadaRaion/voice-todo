@@ -1,20 +1,16 @@
 import { BsFillSunFill } from 'react-icons/bs';
-export default function Header() {
+export default function Header({ filters, filter, onFilterChange }) {
 	return (
 		<header>
 			<button className="toggle">
 				<BsFillSunFill />
 			</button>
 			<ul>
-				<li>
-					<button>All</button>
-				</li>
-				<li>
-					<button>Active</button>
-				</li>
-				<li>
-					<button>Completed</button>
-				</li>
+				{filters.map((value, index) => (
+					<li>
+						<button onClick={() => onFilterChange(index)}>{value}</button>
+					</li>
+				))}
 			</ul>
 		</header>
 	);

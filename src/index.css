@@ -28,3 +28,7 @@ button {
 input {
 	border-radius: 0;
 }
+
+input[type='checkbox']:checked + label {
+	text-decoration: line-through;
+}

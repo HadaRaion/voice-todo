@@ -1,11 +1,28 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 
+const filters = ['all', 'active', 'completed'];
+
 function App() {
 	const [listItems, setListItems] = useState(initialState);
+	const [filter, setFilter] = useState(filters[0]);
+
+	const onFilterChange = index => {
+		setFilter(filters[index]);
+	};
+
+	const getFilteredList = () =>
+		listItems.filter(item => {
+			if (filter === 'all') {
+				return listItems;
+			}
+			return item.state === filter;
+		});
+
+	let filteredList = useMemo(getFilteredList, [listItems, filter]);
 
 	const onAdd = newItem => {
 		setListItems(prev => [...prev, newItem]);
@@ -37,10 +54,10 @@ function App() {
 	return (
 		<div className="App">
 			<div className="wrapper">
-				<Header />
+				<Header filters={filters} filter={filter} onFilterChange={onFilterChange} />
 
 				<ul>
-					{listItems.map(item => (
+					{filteredList.map(item => (
 						<TodoList
 							key={item.id}
 							title={item.title}
