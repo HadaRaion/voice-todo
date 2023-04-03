@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function TodoList({ title, id, state, onDelete, onCheck }) {
+	const { isDark } = useContext(ThemeContext);
+
 	return (
-		<li>
+		<li className={isDark ? 'dark' : ''}>
 			<input
 				type="checkbox"
 				id={id}

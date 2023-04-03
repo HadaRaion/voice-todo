@@ -1,5 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './App.css';
+
+import { ThemeContext } from './context/ThemeContext';
+
 import Header from './components/Header';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
@@ -7,7 +10,8 @@ import TodoList from './components/TodoList';
 const filters = ['all', 'active', 'completed'];
 
 function App() {
-	const [listItems, setListItems] = useState(initialState);
+	const [isDark, setIsDark] = useState(false);
+	const [listItems, setListItems] = useState([]);
 	const [filter, setFilter] = useState(filters[0]);
 
 	const onFilterChange = index => {
@@ -36,8 +40,6 @@ function App() {
 	};
 
 	const onCheck = id => {
-		console.log('id :>> ', id);
-
 		setListItems(prev =>
 			prev.map(item => {
 				if (item.id === id) {
@@ -51,12 +53,25 @@ function App() {
 		);
 	};
 
+	useEffect(() => {
+		const items = JSON.parse(localStorage.getItem('items'));
+		if (items) {
+			setListItems(items);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (listItems.length > 0) {
+			localStorage.setItem('items', JSON.stringify(listItems));
+		}
+	}, [listItems]);
+
 	return (
-		<div className="App">
-			<div className="wrapper">
+		<ThemeContext.Provider value={{ isDark, setIsDark }}>
+			<div className={`App ${isDark ? 'dark' : ''}`}>
 				<Header filters={filters} filter={filter} onFilterChange={onFilterChange} />
 
-				<ul>
+				<ul className="lists">
 					{filteredList.map(item => (
 						<TodoList
 							key={item.id}
@@ -71,25 +86,8 @@ function App() {
 
 				<AddTodo onAdd={onAdd} />
 			</div>
-		</div>
+		</ThemeContext.Provider>
 	);
 }
 
-const initialState = [
-	{
-		id: 'a',
-		title: '장보기',
-		state: 'active',
-	},
-	{
-		id: 'b',
-		title: '영화보기',
-		state: 'active',
-	},
-	{
-		id: 'c',
-		title: '공부하기',
-		state: 'active',
-	},
-];
 export default App;

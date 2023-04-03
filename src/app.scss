@@ -1,0 +1,22 @@
+body {
+	background-image: linear-gradient(to right top, #3c485a, #4b556b, #5b617c, #6d6e8d, #807b9d);
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.App {
+	background-color: #150c36;
+	padding: 1rem;
+	border-radius: 1rem;
+	color: #fff;
+}
+
+.toggle {
+	color: #fff;
+}
+
+.filters {
+	color: #da771a;
+}
