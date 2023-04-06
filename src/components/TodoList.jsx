@@ -2,8 +2,16 @@ import { useContext } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { ThemeContext } from '../context/ThemeContext';
 
-export default function TodoList({ title, id, state, onDelete, onCheck }) {
+export default function TodoList({ todo, onDelete, onUpdate }) {
+	const { id, text, status } = todo;
 	const { isDark } = useContext(ThemeContext);
+
+	const handleChange = e => {
+		const status = e.target.checked ? 'completed' : 'active';
+		onUpdate({ ...todo, status });
+	};
+
+	const handleDelete = () => onDelete(todo);
 
 	return (
 		<li className={isDark ? 'dark' : ''}>
@@ -11,13 +19,13 @@ export default function TodoList({ title, id, state, onDelete, onCheck }) {
 				type="checkbox"
 				id={id}
 				name={id}
-				onChange={() => onCheck(id)}
-				checked={state === 'completed' ? true : false}
+				checked={status === 'completed'}
+				onChange={handleChange}
 			/>
-			<label htmlFor={id} className={state}>
-				{title}
+			<label htmlFor={id} className={status}>
+				{text}
 			</label>
-			<button onClick={() => onDelete(id)}>
+			<button onClick={handleDelete}>
 				<BsFillTrashFill />
 			</button>
 		</li>

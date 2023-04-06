@@ -11,7 +11,7 @@ const filters = ['all', 'active', 'completed'];
 
 function App() {
 	const [isDark, setIsDark] = useState(false);
-	const [listItems, setListItems] = useState([]);
+	const [todoLists, setTodoLists] = useState([]);
 	const [filter, setFilter] = useState(filters[0]);
 
 	const onFilterChange = index => {
@@ -19,52 +19,33 @@ function App() {
 	};
 
 	const getFilteredList = () =>
-		listItems.filter(item => {
+		todoLists.filter(item => {
 			if (filter === 'all') {
-				return listItems;
+				return todoLists;
 			}
 			return item.state === filter;
 		});
 
-	let filteredList = useMemo(getFilteredList, [listItems, filter]);
+	let filteredList = useMemo(getFilteredList, [todoLists, filter]);
 
-	const onAdd = newItem => {
-		setListItems(prev => [...prev, newItem]);
-	};
-
-	const onDelete = id => {
-		setListItems(prev => prev.filter(item => item.id !== id));
-		// const index = listItems.findIndex(item => item.id === id);
-		// console.log('index :>> ', index);
-		// listItems.splice(index, 1);
-	};
-
-	const onCheck = id => {
-		setListItems(prev =>
-			prev.map(item => {
-				if (item.id === id) {
-					const newState = item.state === 'active' ? 'completed' : 'active';
-					const newItem = { ...item, state: newState };
-					return newItem;
-				} else {
-					return item;
-				}
-			})
-		);
+	const handleAdd = newTodo => setTodoLists([...todoLists, newTodo]);
+	const handleDelete = deleted => setTodoLists(todoLists.filter(todo => todo.id !== deleted.id));
+	const handleUpdate = updated => {
+		setTodoLists(todoLists.map(todo => (todo.id === updated.id ? updated : todo)));
 	};
 
 	useEffect(() => {
 		const items = JSON.parse(localStorage.getItem('items'));
 		if (items) {
-			setListItems(items);
+			setTodoLists(items);
 		}
 	}, []);
 
 	useEffect(() => {
-		if (listItems.length > 0) {
-			localStorage.setItem('items', JSON.stringify(listItems));
+		if (todoLists.length > 0) {
+			localStorage.setItem('items', JSON.stringify(todoLists));
 		}
-	}, [listItems]);
+	}, [todoLists]);
 
 	return (
 		<ThemeContext.Provider value={{ isDark, setIsDark }}>
@@ -73,18 +54,11 @@ function App() {
 
 				<ul className="lists">
 					{filteredList.map(item => (
-						<TodoList
-							key={item.id}
-							title={item.title}
-							id={item.id}
-							state={item.state}
-							onDelete={onDelete}
-							onCheck={onCheck}
-						/>
+						<TodoList key={item.id} todo={item} onDelete={handleDelete} onUpdate={handleUpdate} />
 					))}
 				</ul>
 
-				<AddTodo onAdd={onAdd} />
+				<AddTodo onAdd={handleAdd} />
 			</div>
 		</ThemeContext.Provider>
 	);

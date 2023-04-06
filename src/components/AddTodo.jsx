@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function AddTodo({ onAdd }) {
-	const [title, setTitle] = useState('');
+	const [text, setText] = useState('');
 
-	const handleChange = e => setTitle(e.target.value);
+	const handleChange = e => setText(e.target.value);
 	const handleSubmit = e => {
 		e.preventDefault();
-		if (title.trim() === '') {
+		if (text.trim() === '') {
 			return;
 		}
 
@@ -15,15 +15,15 @@ export default function AddTodo({ onAdd }) {
 
 		onAdd({
 			id,
-			title,
+			text,
 			state: 'active',
 		});
-		setTitle('');
+		setText('');
 	};
 
 	return (
-		<form action="" onSubmit={handleSubmit}>
-			<input type="text" name="" value={title} onChange={handleChange} />
+		<form onSubmit={handleSubmit}>
+			<input type="text" value={text} placeholder="Add Todo" onChange={handleChange} />
 			<button>Add</button>
 		</form>
 	);

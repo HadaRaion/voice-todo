@@ -12,7 +12,7 @@ export default function Header({ filters, filter, onFilterChange }) {
 			</button>
 			<ul className="filters">
 				{filters.map((value, index) => (
-					<li className={filter === value ? 'underline' : ''}>
+					<li key={index} className={filter === value ? 'underline' : ''}>
 						<button onClick={() => onFilterChange(index)}>{value}</button>
 					</li>
 				))}
