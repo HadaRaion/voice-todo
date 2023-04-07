@@ -16,7 +16,7 @@ export default function AddTodo({ onAdd }) {
 		onAdd({
 			id,
 			text,
-			state: 'active',
+			status: 'active',
 		});
 		setText('');
 	};

@@ -1,33 +1,42 @@
-import { useContext } from 'react';
-import { BsFillTrashFill } from 'react-icons/bs';
-import { ThemeContext } from '../context/ThemeContext';
+import { useEffect, useState } from 'react';
+import Todo from './Todo';
+import AddTodo from './AddTodo';
 
-export default function TodoList({ todo, onDelete, onUpdate }) {
-	const { id, text, status } = todo;
-	const { isDark } = useContext(ThemeContext);
+export default function TodoList({ filter }) {
+	const [todoLists, setTodoLists] = useState(readTodoListsFromLocalStorage);
 
-	const handleChange = e => {
-		const status = e.target.checked ? 'completed' : 'active';
-		onUpdate({ ...todo, status });
-	};
+	const handleAdd = newTodo => setTodoLists([...todoLists, newTodo]);
+	const handleDelete = deleted => setTodoLists(todoLists.filter(todo => todo.id !== deleted.id));
+	const handleUpdate = updated =>
+		setTodoLists(todoLists.map(todo => (todo.id === updated.id ? updated : todo)));
 
-	const handleDelete = () => onDelete(todo);
+	useEffect(() => {
+		localStorage.setItem('items', JSON.stringify(todoLists));
+	}, [todoLists]);
+
+	const filteredLists = getFilteredItems(todoLists, filter);
 
 	return (
-		<li className={isDark ? 'dark' : ''}>
-			<input
-				type="checkbox"
-				id={id}
-				name={id}
-				checked={status === 'completed'}
-				onChange={handleChange}
-			/>
-			<label htmlFor={id} className={status}>
-				{text}
-			</label>
-			<button onClick={handleDelete}>
-				<BsFillTrashFill />
-			</button>
-		</li>
+		<section>
+			<ul>
+				{filteredLists.map(item => (
+					<Todo key={item.id} todo={item} onUpdate={handleUpdate} onDelete={handleDelete} />
+				))}
+			</ul>
+			<AddTodo onAdd={handleAdd} />
+		</section>
 	);
+}
+
+function readTodoListsFromLocalStorage() {
+	console.log('readTodoListsFromLocalStorage');
+	const todoLists = localStorage.getItem('items');
+	return todoLists ? JSON.parse(todoLists) : [];
+}
+
+function getFilteredItems(todoLists, filter) {
+	if (filter === 'all') {
+		return todoLists;
+	}
+	return todoLists.filter(todo => todo.status === filter);
 }
