@@ -3,8 +3,8 @@ import './App.css';
 
 import { ThemeContext } from './context/ThemeContext';
 
-import Header from './components/Header';
-import TodoList from './components/TodoList';
+import Header from './components/Header/Header';
+import TodoList from './components/TodoList/TodoList';
 
 const filters = ['all', 'active', 'completed'];
 

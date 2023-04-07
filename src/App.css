@@ -1,112 +1,80 @@
 :root {
-	--primary-color: #da771a;
-	--bg-color: #f1eeff;
-	--font-color: #000c45;
+	--color-bg-dark: #f5f5f5;
+	--color-bg: #fdfffd;
+	--color-grey: #d1d1d1;
+	--color-text: #22243b;
+	--color-accent: #f16e03;
+	--color-white: white;
+	--color-scrollbar: #aaa7a7;
 }
 
-.dark {
-	--bg-color: #150c36;
-	--font-color: #fff;
+html.dark {
+	--color-bg-dark: #1a1c35;
+	--color-bg: #22243b;
+	--color-grey: #4e4e4e;
+	--color-text: #fdfffd;
 }
 
 body {
-	background-image: linear-gradient(to right top, #3c485a, #4b556b, #5b617c, #6d6e8d, #807b9d);
-	min-height: 100vh;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+		'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	width: 100vw;
+	height: 100vh;
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+	font-size: 1.2rem;
+	accent-color: var(--color-accent);
+	background: rgb(81, 87, 111);
+	background: linear-gradient(106deg, rgba(81, 87, 111, 1) 0%, rgba(60, 61, 69, 1) 100%);
 }
 
-.App {
-	background-color: var(--bg-color);
-	min-width: 360px;
-	min-height: 400px;
+#root {
+	width: 100%;
+	height: 60%;
+	max-width: 500px;
+	background-color: var(--color-bg-dark);
+	overflow: hidden;
+	border-radius: 1rem;
 	display: flex;
 	flex-direction: column;
-
-	border-radius: 1rem;
-	color: var(--font-color);
+	-webkit-box-shadow: 5px 5px 21px 4px rgba(0, 0, 0, 0.45);
+	box-shadow: 5px 5px 21px 4px rgba(0, 0, 0, 0.45);
 }
 
-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem;
-	border-bottom: 1px solid #3c485a;
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.toggle {
-	color: var(--font-color);
+* {
+	box-sizing: border-box;
 }
 
-.filters {
-	display: flex;
+ul {
+	list-style: none;
+	padding-left: 0;
 }
 
-.filters li {
-	margin-left: 0.5rem;
-}
-
-.filters .underline {
-	border-bottom: 1px solid var(--primary-color);
-}
-
-.filters li button {
-	color: var(--primary-color);
-	text-transform: capitalize;
-	padding-bottom: 3px;
-}
-
-.filters li button.active {
-	border-bottom: 1px solid var(--font-color);
-}
-
-.lists {
-	padding: 1rem;
-}
-
-.lists li {
-	margin-bottom: 0.5rem;
-	display: flex;
-}
-
-.lists li input {
-	margin-right: 0.5rem;
-}
-
-.lists li button {
-	margin-left: auto;
-	background-color: #6d6e8d;
-	width: 1.2rem;
-	height: 1.2rem;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.lists li button svg {
-	color: #fff;
-}
-
-form {
-	margin-top: auto;
-	padding: 1rem;
-	display: flex;
-}
-
-form > input {
+button {
+	outline: none;
 	border: none;
-	padding: 0.5rem;
-	border-radius: 3px 0 0 3px;
-	flex: 1;
 }
 
-form > button {
-	border: none;
-	background-color: var(--primary-color);
-	color: #fff;
-	padding: 0.5rem 1rem;
-	border-radius: 0 3px 3px 0;
+::-webkit-scrollbar {
+	width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--color-scrollbar);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-accent);
 }

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { BsFillTrashFill } from 'react-icons/bs';
-import { ThemeContext } from '../context/ThemeContext';
+import { ThemeContext } from '../../context/ThemeContext';
+import styles from './Todo.module.css';
 
 export default function Todo({ todo, onDelete, onUpdate }) {
 	const { id, text, status } = todo;
@@ -14,20 +15,23 @@ export default function Todo({ todo, onDelete, onUpdate }) {
 	const handleDelete = () => onDelete(todo);
 
 	return (
-		<li className={isDark ? 'dark' : ''}>
+		<li className={styles.todo}>
 			<input
+				className={styles.checkbox}
 				type="checkbox"
 				id={id}
 				name={id}
 				checked={status === 'completed'}
 				onChange={handleChange}
 			/>
-			<label htmlFor={id} className={status}>
+			<label className={styles.text} htmlFor={id}>
 				{text}
 			</label>
-			<button onClick={handleDelete}>
-				<BsFillTrashFill />
-			</button>
+			<span className={styles.icon}>
+				<button onClick={handleDelete} className={styles.button}>
+					<BsFillTrashFill />
+				</button>
+			</span>
 		</li>
 	);
 }
